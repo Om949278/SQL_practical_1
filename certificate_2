@@ -1,15 +1,49 @@
-CREATE TABLE Certificate_Record (
-    Cert_Id     INT PRIMARY KEY,
-    Roll_No     INT,
-    Student_Name VARCHAR(50),
-    Course_Name VARCHAR(50),
-    Issue_Date  DATE
+CREATE TABLE department (
+dept_id INT PRIMARY KEY,
+dept_name VARCHAR(50) UNIQUE NOT NULL
 );
 
-INSERT INTO Certificate_Record 
-(Cert_Id, Roll_No, Student_Name, Course_Name, Issue_Date) VALUES
-(501,     105,     'om bhalerao', 'Embedded Systems', '2026-06-15'),
-(502,     102,     'Rahul Sharma',  'Data Structures',  '2026-06-16'),
-(503,     103,     'Aman Verma',    'Cyber Security',   '2026-06-17');
 
-SELECT * FROM Certificate_Record;
+
+CREATE TABLE student (
+roll_no INT PRIMARY KEY,
+name VARCHAR(50) NOT NULL,
+email VARCHAR(50) UNIQUE,
+aadhar_no VARCHAR(12) UNIQUE,
+dept_id INT,
+FOREIGN KEY (dept_id) REFERENCES department (dept_id)
+);
+
+
+
+
+CREATE TABLE course (
+course_id INT PRIMARY KEY,
+course_name VARCHAR(50) NOT NULL,
+dept_id INT,
+FOREIGN KEY (dept_id) REFERENCES department (dept_id)
+);
+
+
+
+
+CREATE TABLE enrollment (
+roll_no INT,
+course_id INT,
+semester INT CHECK (semester BETWEEN 1 AND 8),
+grade CHAR(2),
+PRIMARY KEY (roll_no , course_id , semester),
+FOREIGN KEY (roll_no) REFERENCES student (roll_no),
+FOREIGN KEY (course_id) REFERENCES c (course_id)
+);
+
+
+
+create table faculty (
+faculty_id int primary key,
+dept_id int,
+first_name varchar(50),
+last_name varchar(50),
+salary float,
+foreign key (dept_id) references department(dept_id)
+);
